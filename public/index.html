@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Confirmação PEI</title>
+</head>
+
+<body id="read_n_check">
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="confirm-card text-center">
+            <div class="text-center mb-3">
+                <a href="#">
+                    <img src="/img/UTFPR_logo.png" alt="Logo UTFPR" width="250" height="96">
+                </a>
+            </div>
+            <h3 class="mb-4">Confirmação de Leitura do PEI</h3>
+            <p id="dados-aluno"><em>Carregando dados do aluno...</em></p> <!-- Local onde os dados aparecerão -->
+            <form action="/submit" method="POST">
+                <input type="hidden" name="aluno" id="aluno">
+                <input type="hidden" name="ra" id="ra">
+                <div class="mb-3 d-flex align-items-center justify-content-center">
+                    <label for="nome_professor" class="form-label me-2">Digite seu nome:</label>
+                    <input type="text" class="form-control w-auto" id="nome_professor" name="nome_professor" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="confirmacao" id="confirmacao" required>
+                    <label class="form-check-label" for="confirmacao">Confirmo que li e estou ciente das informações
+                        apresentadas no PEI que recebi</label>
+                </div>
+                <button type="submit" class="btn btn-success btn-confirm">
+                    Enviar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Extrai os parâmetros da URL
+        const params = new URLSearchParams(window.location.search);
+        const aluno = params.get('Aluno');
+        const ra = params.get('RA');
+
+        // Verifica se os parâmetros estão presentes
+        if (aluno && ra) {
+            // Atualiza o conteúdo da página com os dados do aluno
+            document.getElementById('dados-aluno').innerHTML = `
+                <strong>Aluno:</strong> ${aluno} <br>
+                <strong>RA:</strong> ${ra}
+            `;
+            // Preenche os campos ocultos no formulário
+            document.getElementById('aluno').value = aluno;
+            document.getElementById('ra').value = ra;
+        } else {
+            // Exibe uma mensagem de erro caso os parâmetros estejam ausentes
+            document.getElementById('dados-aluno').innerHTML = `
+                <span class="text-danger">Erro: Os parâmetros "Aluno" e "RA" são obrigatórios na URL.</span>
+            `;
+        }
+    </script>
+</body>
+
+</html>
